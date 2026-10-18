@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/registrations", "destination": "/api/register" },
+    { "source": "/api/register",      "destination": "/api/register" }
+  ],
+  "functions": {
+    "api/register.js": { "maxDuration": 10 }
+  }
+}

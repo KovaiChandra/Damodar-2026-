@@ -1,0 +1,16 @@
+{
+  "name": "damodara-website",
+  "version": "1.0.0",
+  "description": "ISKCON Coimbatore — Damodar Month Deepotsavam Registration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "mysql2": "^3.10.3"
+  }
+}

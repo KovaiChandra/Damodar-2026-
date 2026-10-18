@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Damodar Month Deepotsavam — ISKCON Coimbatore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+  <style>
+    /* ==============================================
+       TOKENS — Damodar Month Deepotsavam
+       Palette: Warm cream, deep brown, rich gold
+       ============================================== */
+    :root {
+      --bg:        #F5E4C8;
+      --bg-sec:    #EDD8B2;
+      --bg-white:  #FDF8EF;
+      --fg:        #3B1508;
+      --fg-mid:    #6B3A18;
+      --fg-light:  #9A6A38;
+      --gold:      #C07A0A;
+      --gold-rich: #D4900F;
+      --gold-pale: #E8C070;
+      --maroon:    #8B1A28;
+      --card-bg:   #FDF4E3;
+      --card-bdr:  rgba(192,122,10,.2);
+      --input-bg:  #FFFBF0;
+      --input-bdr: rgba(192,122,10,.35);
+      --ok:        #2E7D32;
+      --err:       #C62828;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: 'Lato', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; }
+
+    /* ==============================================
+       NAVIGATION
+       ============================================== */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg-white);
+      border-bottom: 1px solid rgba(192,122,10,.18);
+      padding: 14px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .nav-logo { height: 44px; width: auto; }
+    .nav-text { line-height: 1.2; }
+    .nav-name {
+      font-family: 'Cinzel', serif; font-size: .92rem;
+      font-weight: 700; color: var(--maroon);
+      display: block; letter-spacing: .02em;
+    }
+    .nav-sub {
+      font-size: .65rem; color: var(--fg-light);
+      letter-spacing: .1em; text-transform: uppercase;
+      display: block;
+    }
+
+    .btn-primary {
+      background: var(--gold-rich);
+      color: #fff;
+      font-family: 'Lato', sans-serif; font-weight: 700;
+      font-size: .88rem; letter-spacing: .05em;
+      padding: 10px 24px; border: none; border-radius: 2px;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: background .15s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+
+    /* ==============================================
+       HERO — elegant two-column
+       ============================================== */
+
+    /* ---- Hero entrance keyframes ---- */
+    @keyframes h-fade-up {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes h-fade-left {
+      from { opacity:0; transform:translateX(-18px); }
+      to   { opacity:1; transform:translateX(0); }
+    }
+    @keyframes h-rule-grow {
+      from { width:0; opacity:0; }
+      to   { width:56px; opacity:1; }
+    }
+    @keyframes h-img-enter {
+      from { opacity:0; transform:translateY(30px) scale(.97); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
+    @keyframes float-bob {
+      0%,100%{ transform:translateY(0); }
+      45%    { transform:translateY(-14px); }
+    }
+    @keyframes gold-shimmer {
+      0%   { background-position: -250% center; }
+      100% { background-position:  250% center; }
+    }
+    @keyframes ring-expand {
+      0%  { transform:translate(-50%,-50%) scale(.8); opacity:0; }
+      30% { opacity:.5; }
+      100%{ transform:translate(-50%,-50%) scale(1.15); opacity:0; }
+    }
+    @keyframes hero-bg-glow {
+      0%,100%{ opacity:.6; transform:translate(0,0) scale(1); }
+      50%    { opacity:1;  transform:translate(-2%,2%) scale(1.06); }
+    }
+    @keyframes btn-breathe {
+      0%,100%{ box-shadow:0 0 0 0 rgba(212,144,15,0); }
+      50%    { box-shadow:0 0 0 8px rgba(212,144,15,.18); }
+    }
+    @keyframes cursive-write {
+      from { clip-path:inset(0 100% 0 0); }
+      to   { clip-path:inset(0 0% 0 0); }
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100svh - 72px);
+      background: linear-gradient(160deg, #FDF4E3 0%, #F5E4C8 55%, #EDD8B2 100%);
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+    }
+
+    /* Animated ambient glow — centered */
+    .hero::before {
+      content:'';
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:min(70vw,800px); height:min(70vw,800px);
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,200,80,.13) 0%, rgba(212,144,15,.05) 40%, transparent 65%);
+      pointer-events:none;
+      animation:hero-bg-glow 5s ease-in-out infinite;
+    }
+
+    /* Decorative concentric rings — centered */
+    .hero-rings {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:min(72vw,700px); height:min(72vw,700px);
+      pointer-events:none; z-index:0;
+    }
+    .hero-rings span {
+      position:absolute; inset:0; border-radius:50%;
+      border:1px solid rgba(192,122,10,.08);
+      animation:ring-expand 4s ease-out infinite;
+    }
+    .hero-rings span:nth-child(2){ animation-delay:1.3s; inset:-15%; }
+    .hero-rings span:nth-child(3){ animation-delay:2.6s; inset:-30%; }
+
+    .hero-left {
+      padding: 80px 40px;
+      display: flex; flex-direction: column;
+      align-items: center;
+      position:relative; z-index:1;
+      max-width: 860px; width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-size: .68rem; font-weight: 700;
+      letter-spacing: .28em; text-transform: uppercase;
+      color: var(--gold-rich); margin-bottom: 22px;
+      animation: h-fade-left .6s cubic-bezier(.22,1,.36,1) both .15s;
+    }
+
+    /* Three-line headline: small / BIG / gold-cursive */
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      margin: 0; line-height: 1.05;
+    }
+    .hero-title .line-sm {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-weight: 400; color: var(--fg-mid);
+      display: block; letter-spacing: .04em;
+      animation: h-fade-up .65s cubic-bezier(.22,1,.36,1) both .35s;
+    }
+    .hero-title .line-lg {
+      font-size: clamp(2rem, 5vw, 5.2rem);
+      font-weight: 900; display: block; line-height: .95;
+      white-space: nowrap;
+      /* Gold shimmer sweep across the title */
+      background: linear-gradient(
+        90deg,
+        var(--fg) 0%, var(--fg) 30%,
+        #D4900F 45%, #FFE080 50%, #D4900F 55%,
+        var(--fg) 70%, var(--fg) 100%
+      );
+      background-size: 300% auto;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation:
+        h-fade-up .7s cubic-bezier(.22,1,.36,1) both .5s,
+        gold-shimmer 4.5s linear 1.8s infinite;
+    }
+    .hero-title .line-cursive {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 400;
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      color: var(--gold-rich);
+      display: block; margin-top: 8px;
+      letter-spacing: .02em;
+      animation: h-fade-up .6s cubic-bezier(.22,1,.36,1) both .72s;
+    }
+
+    /* Hairline divider */
+    .hero-rule {
+      height: 1.5px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      margin: 28px 0;
+      animation: h-rule-grow .7s cubic-bezier(.22,1,.36,1) both .92s;
+    }
+
+    /* Cursive tagline */
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+      color: var(--fg-mid); line-height: 1.75;
+      margin: 0 0 28px; max-width: 56ch;
+      animation: h-fade-up .65s cubic-bezier(.22,1,.36,1) both 1.05s;
+    }
+
+    /* Date pill */
+    .hero-date {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(192,122,10,.08);
+      border: 1px solid rgba(192,122,10,.18);
+      border-radius: 2px;
+      padding: 8px 18px;
+      font-size: .85rem; color: var(--fg-mid);
+      margin-bottom: 36px; flex-wrap: wrap;
+      animation: h-fade-up .6s cubic-bezier(.22,1,.36,1) both 1.2s;
+    }
+    .hero-date strong { color: var(--fg); font-weight: 700; }
+    .hero-date span { color: var(--gold); }
+
+    /* CTA button — fades in and then subtly breathes */
+    .hero .btn-primary {
+      animation:
+        h-fade-up .6s cubic-bezier(.22,1,.36,1) both 1.38s,
+        btn-breathe 2.8s ease-in-out 2.5s infinite;
+    }
+
+    /* Right column — illustration floats on the gradient */
+    .hero-right {
+      display: flex; align-items: flex-end; justify-content: center;
+      padding: 0 24px 0 0; position: relative; z-index:1;
+    }
+    .hero-img {
+      width: 100%;
+      display: block;
+      mix-blend-mode: multiply;
+      filter: drop-shadow(0 8px 32px rgba(59,21,8,.12));
+      position:relative; z-index:1;
+      animation: h-img-enter .9s cubic-bezier(.22,1,.36,1) both .3s;
+    }
+
+    /* Illustration gentle float */
+    .hero-img-wrap {
+      position:relative; width:100%; max-width:500px;
+      animation: float-bob 5.5s ease-in-out 1.5s infinite;
+    }
+
+    /* ==============================================
+       INVITE STRIP
+       ============================================== */
+    .invite-strip {
+      background: var(--fg);
+      color: var(--gold-pale);
+      text-align: center;
+      padding: 20px 40px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem; letter-spacing: .02em;
+    }
+    .invite-strip strong { color: var(--gold-rich); }
+
+    /* ==============================================
+       ABOUT
+       ============================================== */
+    .section {
+      padding: 72px 40px;
+    }
+    .section-inner { max-width: 960px; margin: 0 auto; }
+
+    .eyebrow {
+      font-size: .7rem; font-weight: 700; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--gold-rich); margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700; color: var(--fg);
+      text-wrap: balance; line-height: 1.2; margin-bottom: 16px;
+    }
+    .hairline {
+      width: 48px; height: 1.5px;
+      background: var(--gold); margin-bottom: 24px;
+    }
+    .body-text {
+      font-size: 1rem; color: var(--fg-mid);
+      max-width: 68ch; line-height: 1.8;
+    }
+    .body-text + .body-text { margin-top: 14px; }
+
+    .facts-row {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 1px; background: var(--card-bdr);
+      border: 1px solid var(--card-bdr); border-radius: 2px;
+      overflow: hidden; margin-top: 48px;
+    }
+    .fact {
+      background: var(--card-bg);
+      padding: 24px 20px; text-align: center;
+    }
+    .fact-num {
+      font-family: 'Cinzel', serif; font-size: 2rem;
+      font-weight: 700; color: var(--gold-rich); display: block;
+      margin-bottom: 6px;
+    }
+    .fact-label { font-size: .78rem; color: var(--fg-light); line-height: 1.4; }
+
+    /* ==============================================
+       HOW IT WORKS
+       ============================================== */
+    .how-bg { background: var(--bg-sec); }
+    .steps-row {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 28px; margin-top: 44px;
+    }
+    .step { padding: 32px 24px; text-align: center; }
+    .step-ring {
+      width: 50px; height: 50px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel', serif; font-size: 1rem;
+      font-weight: 600; color: var(--gold);
+      margin: 0 auto 16px;
+    }
+    .step-title {
+      font-family: 'Cinzel', serif; font-size: .9rem;
+      font-weight: 700; margin-bottom: 10px; color: var(--fg);
+    }
+    .step-body { font-size: .875rem; color: var(--fg-mid); line-height: 1.65; }
+
+    /* ==============================================
+       REGISTRATION FORM
+       ============================================== */
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr); border-radius: 3px;
+      padding: clamp(24px,5vw,48px);
+      max-width: 720px; margin: 44px auto 0;
+    }
+    .fg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .fg { display: flex; flex-direction: column; gap: 6px; }
+    .fg.wide { grid-column: 1 / -1; }
+    label {
+      font-size: .75rem; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      color: var(--fg-mid);
+    }
+    label .req { color: var(--gold-rich); margin-left: 2px; }
+    input, select, textarea {
+      background: var(--input-bg); border: 1px solid var(--input-bdr);
+      border-radius: 2px; color: var(--fg);
+      font-family: 'Lato', sans-serif; font-size: .97rem;
+      padding: 10px 13px; width: 100%; outline: none;
+      transition: border-color .15s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold-rich); }
+    textarea { resize: vertical; min-height: 88px; }
+    .status-msg {
+      font-size: .84rem; min-height: 1.4em;
+      text-align: center; padding: 6px 0;
+    }
+    .status-msg.err { color: var(--err); }
+    .status-msg.ok  { color: var(--ok);  }
+    .submit-btn {
+      width: 100%; margin-top: 6px;
+      background: linear-gradient(135deg, var(--maroon), #A82030);
+      color: #fff; font-family: 'Cinzel', serif;
+      font-size: 1rem; font-weight: 700; letter-spacing: .1em;
+      padding: 15px; border: none; border-radius: 2px; cursor: pointer;
+      transition: opacity .15s, transform .15s;
+    }
+    .submit-btn:hover { opacity: .9; transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+    .form-note {
+      font-size: .78rem; color: var(--fg-light);
+      text-align: center; margin-top: 14px; line-height: 1.5;
+    }
+    .success-card {
+      background: #F1F8E9; color: var(--ok);
+      border-radius: 2px; padding: 20px 24px;
+      text-align: center; font-size: .95rem;
+      font-weight: 700; line-height: 1.65;
+    }
+
+    /* ==============================================
+       ADMIN
+       ============================================== */
+    .admin-wrap {
+      padding: 56px 40px;
+      background: var(--bg-sec);
+      border-top: 1px solid var(--card-bdr);
+    }
+    .admin-inner { max-width: 1100px; margin: 0 auto; }
+    .admin-head {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .admin-stats { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+    .stat {
+      background: var(--card-bg); border: 1px solid var(--card-bdr);
+      border-radius: 2px; padding: 10px 22px;
+    }
+    .stat-n {
+      font-family: 'Cinzel', serif; font-size: 1.8rem;
+      font-weight: 700; color: var(--gold-rich); display: block;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-l {
+      font-size: .68rem; color: var(--fg-light);
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .tbl-wrap { overflow-x: auto; border: 1px solid var(--card-bdr); border-radius: 2px; }
+    table { width: 100%; border-collapse: collapse; font-size: .83rem; min-width: 700px; }
+    th {
+      background: var(--card-bg); font-size: .68rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--fg-light); padding: 9px 12px;
+      text-align: left; border-bottom: 1px solid var(--card-bdr);
+    }
+    td {
+      padding: 9px 12px; border-bottom: 1px solid rgba(192,122,10,.07);
+      color: var(--fg-mid); vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    .btn-export {
+      background: transparent; color: var(--gold-rich);
+      border: 1px solid var(--gold-rich); border-radius: 2px;
+      font-family: 'Lato', sans-serif; font-size: .82rem;
+      font-weight: 700; padding: 8px 18px; cursor: pointer;
+      letter-spacing: .04em; transition: background .15s;
+    }
+    .btn-export:hover { background: rgba(212,144,15,.1); }
+
+    /* ==============================================
+       FOOTER
+       ============================================== */
+    .foot {
+      background: var(--fg);
+      color: rgba(245,228,200,.5);
+      padding: 44px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+    }
+    .foot-left .foot-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem; color: var(--gold-pale);
+      margin-bottom: 8px;
+    }
+    .foot-maha {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .92rem;
+      color: rgba(245,228,200,.4); line-height: 1.6;
+    }
+    .foot-admin-btn {
+      background: none; border: none;
+      color: rgba(245,228,200,.2); font-size: .7rem;
+      cursor: pointer; text-decoration: underline;
+      margin-top: 16px; display: block;
+    }
+    .foot-admin-btn:hover { color: var(--gold-pale); }
+    .foot-right { text-align: right; font-size: .8rem; }
+    .foot-address {
+      font-size: .85rem; color: rgba(245,228,200,.5);
+      display: flex; align-items: flex-start; gap: 8px;
+      justify-content: flex-end;
+    }
+    .foot-address span { line-height: 1.5; }
+
+    /* ==============================================
+       RESPONSIVE
+       ============================================== */
+    @media (max-width: 900px) {
+      .nav { padding: 12px 20px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 40px 20px 32px; order: 2; }
+      .hero-right { padding: 32px 20px 0; order: 1; justify-content: center; }
+      .hero-img-wrap { max-width: 340px; }
+      .hero-img { max-width: 340px; }
+      .facts-row { grid-template-columns: 1fr 1fr; }
+      .steps-row { grid-template-columns: 1fr; }
+      .foot { grid-template-columns: 1fr; }
+      .foot-right { text-align: left; }
+      .foot-address { justify-content: flex-start; }
+      .section { padding: 56px 20px; }
+      .admin-wrap { padding: 48px 20px; }
+      .invite-strip { padding: 18px 20px; }
+      .lamp-divider { padding: 20px; }
+      .lamp-row { gap: 20px; }
+      .lamp-word { font-size:.85rem; }
+    }
+
+    @media (max-width: 560px) {
+      .fg-grid { grid-template-columns: 1fr; }
+      .facts-row { grid-template-columns: 1fr; }
+      .hero-festival::before, .hero-festival::after { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+      .hero-title .line-lg {
+        background: none; -webkit-text-fill-color: var(--fg); color: var(--fg);
+      }
+    }
+
+    @media (max-width: 900px) {
+      /* Disable float bob on mobile — saves battery and avoids jank */
+      .hero-img-wrap { animation: none; }
+      .hero-rings { display:none; }
+    }
+
+    /* ============================================================
+       LAMP ANIMATIONS
+       ============================================================ */
+    @keyframes flicker {
+      0%,100%{ transform:scaleX(1) scaleY(1) rotate(-1.5deg); filter:brightness(1); }
+      20%    { transform:scaleX(.87) scaleY(1.1) rotate(2.5deg); filter:brightness(.82); }
+      40%    { transform:scaleX(1.07) scaleY(.93) rotate(-2deg); filter:brightness(1.06); }
+      60%    { transform:scaleX(.92) scaleY(1.06) rotate(1.5deg); filter:brightness(.9); }
+      80%    { transform:scaleX(1.04) scaleY(.97) rotate(-1deg); filter:brightness(1); }
+    }
+    @keyframes glow-pulse-css {
+      0%,100%{ opacity:.55; transform:translate(-50%,-50%) scale(1); }
+      50%    { opacity:.85; transform:translate(-50%,-50%) scale(1.14); }
+    }
+    @keyframes particle-rise {
+      0%  { opacity:.9; transform:translateY(0) scale(1); }
+      80% { opacity:.4; }
+      100%{ opacity:0; transform:translateY(-180px) scale(.2); }
+    }
+
+    /* --- Scroll-reveal --- */
+    .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
+    .reveal.in-view { opacity:1; transform:none; }
+
+    /* --- Diya lamp --- */
+    .diya-flame { transform-origin:50% 100%; animation:flicker 1.7s ease-in-out infinite; }
+    .diya-flame-b { transform-origin:50% 100%; animation:flicker 2.3s ease-in-out .4s infinite reverse; opacity:.55; }
+
+    /* --- Lamp divider strip --- */
+    .lamp-divider {
+      background:linear-gradient(135deg, #110304 0%, #1E0608 50%, #2A0D0D 100%);
+      padding:28px 40px;
+      display:flex; align-items:center; justify-content:center; gap:28px;
+      position:relative; overflow:hidden;
+    }
+    .lamp-divider::before {
+      content:'';
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:500px; height:160px;
+      background:radial-gradient(ellipse, rgba(212,144,15,.2) 0%, transparent 65%);
+      pointer-events:none;
+    }
+    .lamp-row { display:flex; align-items:flex-end; gap:36px; position:relative; z-index:1; }
+    .lamp-word {
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:1.05rem; color:rgba(245,228,200,.55); letter-spacing:.06em;
+      align-self:center;
+    }
+
+    /* --- Hero particles --- */
+    .hero-particles { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+    .ptcl {
+      position:absolute; bottom:0;
+      border-radius:50%;
+      background:rgba(255,175,30,.75);
+      animation:particle-rise linear infinite;
+    }
+
+    /* --- Hero illustration glow --- */
+    .hero-img-glow {
+      position:absolute; bottom:8%; left:50%;
+      transform:translateX(-50%);
+      width:75%; padding-bottom:75%;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,160,40,.28) 0%, rgba(210,100,15,.1) 42%, transparent 68%);
+      animation:glow-pulse-css 3.2s ease-in-out infinite;
+      pointer-events:none;
+    }
+
+    /* --- Dark "How It Works" section --- */
+    .how-bg {
+      background:linear-gradient(155deg, #0F0305 0%, #220A0A 50%, #3B1508 100%) !important;
+      position:relative; overflow:hidden;
+    }
+    .how-bg::after {
+      content:'';
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:65vw; max-width:700px; height:380px;
+      background:radial-gradient(ellipse, rgba(212,144,15,.1) 0%, transparent 62%);
+      pointer-events:none;
+    }
+    .how-bg .eyebrow { color:rgba(245,228,200,.55); }
+    .how-bg .section-title { color:var(--gold-pale); }
+    .how-bg .hairline { background:var(--gold); opacity:.8; }
+    .how-bg .body-text { color:rgba(245,228,200,.68); }
+    .how-bg .step-ring { border-color:var(--gold-rich); color:var(--gold-rich); box-shadow:0 0 12px rgba(212,144,15,.25); }
+    .how-bg .step-title { color:var(--gold-pale); }
+    .how-bg .step-body { color:rgba(245,228,200,.58); }
+
+    /* --- Richer invite strip --- */
+    .invite-strip {
+      background:linear-gradient(135deg, #1A0508 0%, #240C0C 100%) !important;
+      border-top:1px solid rgba(212,144,15,.15);
+      border-bottom:1px solid rgba(212,144,15,.15);
+      position:relative; overflow:hidden;
+    }
+    .invite-strip::before {
+      content:'';
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:300px; height:80px;
+      background:radial-gradient(ellipse, rgba(212,144,15,.18) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .invite-strip { color:rgba(245,228,200,.75); }
+    .invite-strip strong { color:var(--gold-rich); }
+
+    /* ==============================================
+       ABOUT SECTION — two-column with image
+       ============================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+    .about-img-wrap {
+      display: flex; justify-content: center;
+    }
+    .about-img {
+      width: 100%; max-width: 440px;
+      mix-blend-mode: multiply;
+      filter: drop-shadow(0 12px 40px rgba(59,21,8,.14));
+      border-radius: 4px;
+    }
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+      .about-img-wrap { order: -1; }
+      .about-img { max-width: 300px; }
+    }
+
+    /* ==============================================
+       REGISTER SECTION — CTA only
+       ============================================== */
+    .register-cta {
+      text-align: center;
+      padding: 56px 40px;
+    }
+    .register-cta .section-title { margin-bottom: 12px; }
+    .register-cta .body-text { max-width: 52ch; margin: 0 auto 32px; }
+
+    /* ==============================================
+       MODAL
+       ============================================== */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(20,6,2,.75);
+      backdrop-filter: blur(5px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .28s cubic-bezier(.22,1,.36,1);
+    }
+    .modal-overlay.open {
+      opacity: 1; pointer-events: all;
+    }
+    .modal-card {
+      background: var(--bg-white);
+      border: 1px solid var(--card-bdr);
+      border-radius: 4px;
+      padding: clamp(24px, 5vw, 44px);
+      max-width: 700px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      position: relative;
+      transform: translateY(24px) scale(.98);
+      transition: transform .3s cubic-bezier(.22,1,.36,1);
+    }
+    .modal-overlay.open .modal-card {
+      transform: translateY(0) scale(1);
+    }
+    .modal-close {
+      position: absolute; top: 14px; right: 16px;
+      background: none; border: none; cursor: pointer;
+      font-size: 1.6rem; color: var(--fg-light); line-height: 1;
+      padding: 4px 8px; border-radius: 2px;
+      transition: color .15s, background .15s;
+    }
+    .modal-close:hover { color: var(--fg); background: rgba(192,122,10,.08); }
+    .modal-header { margin-bottom: 4px; padding-right: 32px; }
+    .modal-title {
+      font-family: 'Cinzel', serif; font-size: 1.35rem; font-weight: 700;
+      color: var(--fg); margin-bottom: 4px;
+    }
+    .modal-sub {
+      font-size: .85rem; color: var(--fg-mid); margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <img src="logo.jpg" alt="ISKCON logo" class="nav-logo">
+    <div class="nav-text">
+      <span class="nav-name">ISKCON Coimbatore</span>
+      <span class="nav-sub">Hare Krishna Temple</span>
+    </div>
+  </div>
+  <button class="btn-primary open-modal" id="navRegisterBtn">Register Now</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-particles" id="heroParticles"></div>
+  <div class="hero-rings" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="hero-left">
+    <p class="hero-eyebrow">ISKCON Coimbatore &nbsp;·&nbsp; Kārtika 2026</p>
+    <h1 class="hero-title">
+      <span class="line-sm">Celebrate</span>
+      <span class="line-lg">Damodar Month</span>
+      <span class="line-cursive">at Your Place</span>
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">
+      Open your home during the most sacred month of Kārtika — our devotees will visit for pūjā, kīrtan &amp; the offering of lamps, freely given to all.
+    </p>
+    <div class="hero-date">
+      <strong>October 26 – November 24, 2026</strong>
+      <span>·</span>
+      Every Evening, 7:00 PM Onwards
+    </div>
+    <button class="btn-primary open-modal">Register Your Venue</button>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-inner">
+    <p class="eyebrow">The Sacred Month</p>
+    <h2 class="section-title">What is Damodar Month?</h2>
+    <div class="hairline"></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="body-text">
+          Damodar Month — called <em>Kārtika</em> in the Vaishnava calendar — is the holiest month of the year, observed from late October through November. Its name recalls the day Mother Yashoda, in loving anger at her mischievous son, tied Him around the waist with a rope. <em>Dāmodara</em> means "He who was bound around the abdomen." The Lord, who cannot be held by any force, let Himself be bound by one thing alone — a mother's pure, selfless love.
+        </p>
+        <p class="body-text" style="margin-top:14px">
+          During this month, devotees offer a ghee lamp each evening and sing the <em>Damodarashtakam</em> — eight sacred verses glorifying this divine pastime. The Padma Purāṇa declares that a single lamp offered in Kārtika erases the sins of many births.
+        </p>
+      </div>
+      <div class="about-img-wrap">
+        <img src="damodara-about.webp" alt="Mother Yashoda and Lord Damodara — the Dāmodara pastime" class="about-img">
+      </div>
+    </div>
+    <div class="facts-row reveal">
+      <div class="fact">
+        <span class="fact-num">30</span>
+        <span class="fact-label">Sacred days of devotion & lamp offerings</span>
+      </div>
+      <div class="fact">
+        <span class="fact-num">8</span>
+        <span class="fact-label">Verses of the Damodarashtakam, sung each evening</span>
+      </div>
+      <div class="fact">
+        <span class="fact-num">7 PM</span>
+        <span class="fact-label">Every evening — the hour of the lamp offering</span>
+      </div>
+      <div class="fact">
+        <span class="fact-num">Free</span>
+        <span class="fact-label">Puja &amp; kirtan program — offered at no cost to all</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-bg" id="how">
+  <div class="section-inner">
+    <p class="eyebrow">How It Works</p>
+    <h2 class="section-title">Celebrate at Your Place</h2>
+    <div class="hairline"></div>
+    <p class="body-text">
+      ISKCON Coimbatore devotees will personally visit your home or venue to conduct a traditional puja and kirtan program — entirely free of charge. All you need to do is open your doors and your heart.
+    </p>
+    <div class="steps-row reveal">
+      <div class="step">
+        <div class="step-ring">I</div>
+        <div class="step-title">Register Your Venue</div>
+        <p class="step-body">Fill in the form with your name, address, and venue capacity. Takes under two minutes.</p>
+      </div>
+      <div class="step">
+        <div class="step-ring">II</div>
+        <div class="step-title">We Confirm a Date</div>
+        <p class="step-body">Our team contacts you within 48 hours to schedule a date and time during the Kārtika month.</p>
+      </div>
+      <div class="step">
+        <div class="step-ring">III</div>
+        <div class="step-title">Celebrate Together</div>
+        <p class="step-body">Devotees arrive with lamps, prasādam and kirtan. A beautiful evening of devotion — free for all.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTRATION CTA -->
+<section class="section" id="register" style="text-align:center">
+  <div class="section-inner">
+    <p class="eyebrow">Reserve Your Spot</p>
+    <h2 class="section-title">Host Damodar Month at Your Place</h2>
+    <div class="hairline" style="margin:0 auto 24px"></div>
+    <p class="body-text" style="margin:0 auto 32px">Our devotees will personally visit your home for a traditional pūjā, kīrtan &amp; lamp offering — entirely free. It takes under two minutes to register.</p>
+    <button class="btn-primary open-modal" style="font-size:1rem;padding:14px 36px;letter-spacing:.06em">Register Your Venue — Free</button>
+    <p style="font-size:.78rem;color:var(--fg-light);margin-top:14px">🙏 Completely free. ISKCON Coimbatore. Hare Krishna!</p>
+  </div>
+</section>
+
+<!-- REGISTRATION MODAL -->
+<div class="modal-overlay" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle">Host Damodar Month at Your Place</h2>
+      <p class="modal-sub">Fill in the details below. Our team will reach out within 48 hours to confirm your program date.</p>
+    </div>
+    <form id="regForm" novalidate>
+      <div class="fg-grid">
+        <div class="fg">
+          <label for="f_name">Full Name <span class="req">*</span></label>
+          <input type="text" id="f_name" name="name" required placeholder="Your full name" autocomplete="name">
+        </div>
+        <div class="fg">
+          <label for="f_phone">Phone Number <span class="req">*</span></label>
+          <input type="tel" id="f_phone" name="phone" required placeholder="+91 XXXXX XXXXX" autocomplete="tel">
+        </div>
+        <div class="fg">
+          <label for="f_email">Email Address</label>
+          <input type="email" id="f_email" name="email" placeholder="Optional" autocomplete="email">
+        </div>
+        <div class="fg">
+          <label for="f_area">Area / Locality <span class="req">*</span></label>
+          <input type="text" id="f_area" name="area" required placeholder="e.g. R.S. Puram, Saibaba Colony">
+        </div>
+        <div class="fg wide">
+          <label for="f_address">Full Address <span class="req">*</span></label>
+          <input type="text" id="f_address" name="address" required placeholder="Door no., street name, landmark" autocomplete="street-address">
+        </div>
+        <div class="fg">
+          <label for="f_capacity">Venue Capacity <span class="req">*</span></label>
+          <select id="f_capacity" name="capacity" required>
+            <option value="">Approximate number of guests</option>
+            <option value="10-20">10 – 20 people</option>
+            <option value="20-40">20 – 40 people</option>
+            <option value="40-60">40 – 60 people</option>
+            <option value="60-100">60 – 100 people</option>
+            <option value="100+">More than 100</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label for="f_week">Preferred Week</label>
+          <select id="f_week" name="prefWeek">
+            <option value="">Any week in Kārtika</option>
+            <option value="oct-late">Late October</option>
+            <option value="nov-early">Early November</option>
+            <option value="nov-mid">Mid November</option>
+            <option value="nov-late">Late November</option>
+          </select>
+        </div>
+        <div class="fg wide">
+          <label for="f_notes">Additional Notes</label>
+          <textarea id="f_notes" name="notes" placeholder="Special requirements, accessibility needs, parking, or any questions…"></textarea>
+        </div>
+      </div>
+      <div class="status-msg" id="formStatus" aria-live="polite"></div>
+      <button type="submit" class="submit-btn" id="submitBtn">Register to Host — Free Program</button>
+      <p class="form-note">🙏 This program is offered completely free by ISKCON Coimbatore. Hare Krishna!</p>
+    </form>
+    <div id="successCard" style="display:none" class="success-card">
+      🙏 Hare Krishna! Your registration has been received.<br>
+      Our team will contact you within 48 hours to confirm your program.<br>
+      <span style="font-weight:400;font-size:.9em">Thank you for opening your home to the Lord!</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-left">
+    <div class="foot-brand">ISKCON Coimbatore</div>
+    <div class="foot-maha">
+      Hare Krishna Hare Krishna · Krishna Krishna Hare Hare<br>
+      Hare Rama Hare Rama · Rama Rama Hare Hare
+    </div>
+    <p style="font-size:.78rem;margin-top:10px">
+      Damodar Month Deepotsavam Registration · © 2026 ISKCON Coimbatore
+    </p>
+    <button class="foot-admin-btn" id="adminToggle">Admin Panel</button>
+  </div>
+  <div class="foot-right">
+    <div class="foot-address">
+      <span>📍</span>
+      <span>
+        <strong style="color:var(--gold-pale);font-size:.9rem">ISKCON Coimbatore</strong><br>
+        Near Codissia, Coimbatore<br>
+        Tamil Nadu, India
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- ADMIN SECTION -->
+<section class="admin-wrap" id="adminSection" style="display:none">
+  <div class="admin-inner">
+    <div class="admin-head">
+      <div>
+        <h2 style="font-family:'Cinzel',serif;font-size:1.4rem;color:var(--fg)">Admin Panel</h2>
+        <p style="font-size:.82rem;color:var(--fg-light);margin-top:3px">Damodara Month Registrations — ISKCON Coimbatore</p>
+      </div>
+      <button class="btn-export" id="exportBtn">Export CSV</button>
+    </div>
+    <div class="admin-stats">
+      <div class="stat">
+        <span class="stat-n" id="statTotal">—</span>
+        <span class="stat-l">Registrations</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n" id="statCap">—</span>
+        <span class="stat-l">Total Capacity</span>
+      </div>
+    </div>
+    <p id="adminMsg" style="font-size:.85rem;color:var(--fg-light);padding:8px 0"></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Name</th><th>Phone</th><th>Email</th>
+            <th>Area</th><th>Address</th><th>Capacity</th>
+            <th>Pref. Week</th><th>Notes</th><th>Registered</th>
+          </tr>
+        </thead>
+        <tbody id="regBody">
+          <tr><td colspan="10" style="text-align:center;color:var(--fg-light);padding:28px">No data loaded.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.7rem;color:var(--fg-light);margin-top:12px;text-align:right">
+      Admin panel — protected by password.
+    </p>
+  </div>
+</section>
+
+<script>
+/* =====================================================
+   MODAL
+   ===================================================== */
+const modal = document.getElementById('registerModal');
+
+function openModal() {
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  modal.querySelector('.modal-card').scrollTop = 0;
+}
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.querySelectorAll('.open-modal').forEach(el => {
+  el.addEventListener('click', e => { e.preventDefault(); openModal(); });
+});
+
+/* =====================================================
+   CONFIG
+   ===================================================== */
+const API_BASE = '/api';
+const ADMIN_PASSWORD = 'ISKCON2026'; // Change this before going live
+
+const WEEK_LABELS = {
+  'oct-late': 'Late October', 'nov-early': 'Early November',
+  'nov-mid': 'Mid November', 'nov-late': 'Late November', '': 'Any'
+};
+const CAP_MID = { '10-20':15,'20-40':30,'40-60':50,'60-100':80,'100+':120 };
+
+let allRegistrations = [];
+
+/* =====================================================
+   REGISTRATION FORM
+   ===================================================== */
+document.getElementById('regForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const form   = e.target;
+  const btn    = document.getElementById('submitBtn');
+  const status = document.getElementById('formStatus');
+
+  const data = {
+    name:     form.name.value.trim(),
+    phone:    form.phone.value.trim(),
+    email:    form.email.value.trim(),
+    area:     form.area.value.trim(),
+    address:  form.address.value.trim(),
+    capacity: form.capacity.value,
+    prefWeek: form.prefWeek.value,
+    notes:    form.notes.value.trim(),
+  };
+
+  if (!data.name || !data.phone || !data.area || !data.address || !data.capacity) {
+    status.textContent = 'Please fill in all required fields.';
+    status.className = 'status-msg err';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  status.textContent = '';
+  status.className = 'status-msg';
+
+  try {
+    const res = await fetch(`${API_BASE}/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Server error, please try again.');
+    }
+    form.style.display = 'none';
+    document.getElementById('successCard').style.display = 'block';
+  } catch (err) {
+    status.textContent = err.message;
+    status.className = 'status-msg err';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Register to Host — Free Program';
+  }
+});
+
+/* =====================================================
+   ADMIN PANEL
+   ===================================================== */
+document.getElementById('adminToggle').addEventListener('click', () => {
+  const sec = document.getElementById('adminSection');
+  if (sec.style.display !== 'none') { sec.style.display = 'none'; return; }
+
+  const pw = prompt('Admin password:');
+  if (pw !== ADMIN_PASSWORD) { alert('Incorrect password.'); return; }
+
+  sec.style.display = 'block';
+  sec.scrollIntoView({ behavior: 'smooth' });
+  loadRegistrations();
+});
+
+async function loadRegistrations() {
+  const msg  = document.getElementById('adminMsg');
+  const body = document.getElementById('regBody');
+  msg.textContent = 'Loading…';
+  try {
+    const res = await fetch(`${API_BASE}/registrations`);
+    if (!res.ok) throw new Error('Failed to fetch registrations.');
+    allRegistrations = await res.json();
+    renderTable(allRegistrations);
+    msg.textContent = '';
+  } catch (err) {
+    msg.textContent = 'Error: ' + err.message;
+    msg.style.color = 'var(--err)';
+  }
+}
+
+function renderTable(regs) {
+  document.getElementById('statTotal').textContent = regs.length;
+  const cap = regs.reduce((s,r) => s + (CAP_MID[r.capacity]||0), 0);
+  document.getElementById('statCap').textContent = cap ? cap+'+' : '—';
+
+  const body = document.getElementById('regBody');
+  if (!regs.length) {
+    body.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--fg-light);padding:28px">No registrations yet.</td></tr>';
+    return;
+  }
+  body.innerHTML = regs.map((r,i) => `<tr>
+    <td style="color:var(--fg-light);font-size:.75rem">${i+1}</td>
+    <td style="font-weight:700;color:var(--fg)">${esc(r.name)}</td>
+    <td>${esc(r.phone)}</td>
+    <td>${esc(r.email)||'—'}</td>
+    <td>${esc(r.area)}</td>
+    <td>${esc(r.address)}</td>
+    <td>${esc(r.capacity)}</td>
+    <td>${esc(WEEK_LABELS[r.pref_week]||r.pref_week||'Any')}</td>
+    <td style="max-width:180px;white-space:pre-wrap;word-break:break-word">${esc(r.notes)||'—'}</td>
+    <td style="white-space:nowrap;font-size:.75rem;color:var(--fg-light)">${fmtDate(r.created_at)}</td>
+  </tr>`).join('');
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtDate(ts) {
+  if (!ts) return '—';
+  try { return new Date(ts).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+  catch { return ts; }
+}
+
+/* =====================================================
+   PARTICLES — hero rising embers
+   ===================================================== */
+(function() {
+  const c = document.getElementById('heroParticles');
+  if (!c) return;
+  const count = 22;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'ptcl';
+    const size = 2 + Math.random() * 3.5;
+    p.style.cssText = [
+      `left:${8 + Math.random() * 84}%`,
+      `bottom:${Math.random() * 25}%`,
+      `width:${size}px`,
+      `height:${size}px`,
+      `animation-duration:${2.8 + Math.random() * 3.8}s`,
+      `animation-delay:${-Math.random() * 5}s`,
+      `opacity:${.35 + Math.random() * .55}`,
+    ].join(';');
+    c.appendChild(p);
+  }
+})();
+
+/* =====================================================
+   SCROLL REVEAL
+   ===================================================== */
+(function() {
+  const els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('in-view'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in-view'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+})();
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+  if (!allRegistrations.length) { alert('No data yet.'); return; }
+  const cols = ['#','Name','Phone','Email','Area','Address','Capacity','Pref. Week','Notes','Registered'];
+  const rows = allRegistrations.map((r,i) =>
+    [i+1,r.name,r.phone,r.email||'',r.area,r.address,r.capacity,
+     WEEK_LABELS[r.pref_week]||r.pref_week||'Any',r.notes||'',fmtDate(r.created_at)]
+    .map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(',')
+  );
+  const csv = [cols.join(','), ...rows].join('\n');
+  const url = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  const a   = Object.assign(document.createElement('a'),{href:url,download:'damodara-registrations.csv'});
+  a.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+
+</body>
+</html>
