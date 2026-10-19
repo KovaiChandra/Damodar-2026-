@@ -1,11 +1,23 @@
 {
   "version": 2,
+  "framework": null,
   "rewrites": [
-    { "source": "/admin",             "destination": "/admin.html" },
-    { "source": "/api/registrations", "destination": "/api/register" },
-    { "source": "/api/register",      "destination": "/api/register" }
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/api/registrations",
+      "destination": "/api/register"
+    },
+    {
+      "source": "/api/register",
+      "destination": "/api/register"
+    }
   ],
   "functions": {
-    "api/register.js": { "maxDuration": 10 }
+    "api/register.js": {
+      "maxDuration": 10
+    }
   }
 }
