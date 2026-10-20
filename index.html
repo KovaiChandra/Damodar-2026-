@@ -1152,11 +1152,6 @@
             <div class="c-card-lbl">Target Lamps</div>
           </div>
           <div class="c-card">
-            <div class="c-card-icon">🏡</div>
-            <div class="c-card-val">500+</div>
-            <div class="c-card-lbl">Venues Booked</div>
-          </div>
-          <div class="c-card">
             <div class="c-card-icon">🎶</div>
             <div class="c-card-val">30 Days</div>
             <div class="c-card-lbl">Sacred Kartika Utsav</div>
@@ -1300,12 +1295,11 @@
       </div>
       <p class="footer-address">
         <strong>ISKCON Coimbatore</strong> · Near Codissia Trade Fair Complex, Avinashi Road, Coimbatore<br>
-        Call / WhatsApp: <a href="https://wa.me/919629898474" target="_blank" style="color:#FBBF24; text-decoration:underline;">+91 96298 98474</a>
+        Call / WhatsApp: <a href="https://wa.me/919042216108" target="_blank" style="color:#FBBF24; text-decoration:underline;">+91 90422 16108</a>
       </p>
       <p style="font-size:0.75rem; color:#6B7280; margin-bottom:8px;">
         Laksha Deepotsava Seva · 1,00,000 Lamps Offered to Lord Damodara · © 2026 ISKCON Coimbatore
       </p>
-      <a href="/admin" class="footer-admin-link">Devotee Admin Console</a>
     </div>
   </footer>
 
@@ -1578,20 +1572,22 @@
       const adminExport = document.getElementById('adminExport');
       let cachedRows = [];
 
-      adminToggle.addEventListener('click', function() {
-        if (adminDrawer.style.display === 'block') {
-          adminDrawer.style.display = 'none';
-          return;
-        }
-        const pw = prompt('Admin Password:');
-        if (pw === 'ISKCON2026') {
-          adminDrawer.style.display = 'block';
-          adminDrawer.scrollIntoView({ behavior: 'smooth' });
-          fetchAdmin();
-        } else if (pw !== null) {
-          alert('Incorrect password.');
-        }
-      });
+      if (adminToggle) {
+        adminToggle.addEventListener('click', function() {
+          if (adminDrawer.style.display === 'block') {
+            adminDrawer.style.display = 'none';
+            return;
+          }
+          const pw = prompt('Admin Password:');
+          if (pw === '8899') {
+            adminDrawer.style.display = 'block';
+            adminDrawer.scrollIntoView({ behavior: 'smooth' });
+            fetchAdmin();
+          } else if (pw !== null) {
+            alert('Incorrect password.');
+          }
+        });
+      }
 
       async function fetchAdmin() {
         adminTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:18px;">Loading...</td></tr>';
