@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node server.js)",
+      "Bash(npm run *)",
+      "Bash(npm start)",
+      "Bash(npm install *)",
+      "Bash(git push *)",
+      "Bash(git status)",
+      "Bash(git log *)",
+      "Bash(git diff *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git pull *)"
+    ],
+    "deny": [
+      "Bash(mysql * DROP *)",
+      "Bash(mysql * DELETE FROM *)",
+      "Bash(mysql * TRUNCATE *)"
+    ]
+  }
+}
