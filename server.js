@@ -1,5 +1,4 @@
 const express = require('express');
-const mysql   = require('mysql2/promise');
 const path    = require('path');
 const fs      = require('fs');
 
@@ -10,6 +9,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 require('dotenv').config();
+
+const { createClient } = require('@supabase/supabase-js');
 
 const DATA_FILE = path.join(__dirname, 'registrations_local.json');
 
@@ -34,51 +35,10 @@ function saveLocalRegistration(entry) {
   }
 }
 
-let pool = null;
-if (process.env.DB_HOST && process.env.DB_USER) {
-  try {
-    pool = mysql.createPool({
-      host    : process.env.DB_HOST,
-      port    : process.env.DB_PORT || 3306,
-      user    : process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME || 'railway',
-      ssl     : process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
-      waitForConnections: true,
-      connectionLimit   : 5,
-      connectTimeout    : 5000,
-    });
-  } catch (err) {
-    console.warn('DB Pool initialization skipped or failed:', err.message);
-  }
-}
-
-async function initDb() {
-  if (!pool) return;
-  const conn = await pool.getConnection();
-  try {
-    await conn.execute(`
-      CREATE TABLE IF NOT EXISTS damodara_registrations (
-        id          INT AUTO_INCREMENT PRIMARY KEY,
-        name        VARCHAR(255) NOT NULL,
-        phone       VARCHAR(50)  NOT NULL,
-        email       VARCHAR(255),
-        area        VARCHAR(255) DEFAULT 'Coimbatore',
-        address     TEXT         NOT NULL,
-        capacity    VARCHAR(50)  DEFAULT 'Home / Group',
-        mentor_name VARCHAR(255) DEFAULT NULL,
-        pref_week   VARCHAR(50),
-        notes       TEXT,
-        created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-    try {
-      await conn.execute(`ALTER TABLE damodara_registrations ADD COLUMN mentor_name VARCHAR(255) DEFAULT NULL`);
-    } catch (_) {}
-    console.log('✅ MySQL DB table ready.');
-  } finally {
-    conn.release();
-  }
+let supabase = null;
+if (process.env.SUPABASE_URL && process.env.SUPABASE_SECRET_KEY) {
+  supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SECRET_KEY);
+  console.log('✅ Supabase client initialized.');
 }
 
 // POST /api/register
@@ -94,9 +54,7 @@ app.post('/api/register', async (req, res) => {
 
   const entry = {
     id: Date.now(),
-    name,
-    phone,
-    address,
+    name, phone, address,
     mentor_name: assignedMentor,
     area: assignedArea,
     capacity: assignedCap,
@@ -106,31 +64,26 @@ app.post('/api/register', async (req, res) => {
     created_at: new Date().toISOString()
   };
 
-  // Always save locally to prevent data loss
+  // Always save locally as backup
   saveLocalRegistration(entry);
 
-  // Try DB
   let dbSaved = false;
-  if (pool) {
-    try {
-      await pool.execute(
-        `INSERT INTO damodara_registrations
-           (name, phone, email, area, address, capacity, mentor_name, pref_week, notes)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [name, phone, email || null, assignedArea, address, assignedCap, assignedMentor, prefWeek || null, notes || null]
-      );
+  if (supabase) {
+    const { error } = await supabase.from('damodara_registrations').insert([{
+      name,
+      phone,
+      email: email || null,
+      area: assignedArea,
+      address,
+      capacity: assignedCap,
+      mentor_name: assignedMentor,
+      pref_week: prefWeek || null,
+      notes: notes || null
+    }]);
+    if (error) {
+      console.warn('Supabase save failed (saved to local backup):', error.message);
+    } else {
       dbSaved = true;
-    } catch (dbErr) {
-      console.warn('MySQL save failed (saved to local backup):', dbErr.message);
-      try {
-        await pool.execute(
-          `INSERT INTO damodara_registrations
-             (name, phone, email, area, address, capacity, pref_week, notes)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-          [name, phone, email || null, assignedArea, address, assignedCap, prefWeek || null, (notes ? notes + ' | Mentor: ' : 'Mentor: ') + assignedMentor]
-        );
-        dbSaved = true;
-      } catch (_) {}
     }
   }
 
@@ -139,15 +92,13 @@ app.post('/api/register', async (req, res) => {
 
 // GET /api/registrations (admin)
 app.get('/api/registrations', async (req, res) => {
-  if (pool) {
-    try {
-      const [rows] = await pool.execute(
-        'SELECT * FROM damodara_registrations ORDER BY id DESC'
-      );
-      return res.json(rows);
-    } catch (err) {
-      console.warn('DB select failed, falling back to local file:', err.message);
-    }
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('damodara_registrations')
+      .select('*')
+      .order('id', { ascending: false });
+    if (!error) return res.json(data);
+    console.warn('Supabase fetch failed, falling back to local file:', error.message);
   }
   const localRows = readLocalRegistrations();
   res.json(localRows);
@@ -163,22 +114,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Start server
-if (pool) {
-  initDb()
-    .then(() => {
-      app.listen(PORT, () => {
-        console.log(`\n🪔  Damodar Month site (with DB) → http://localhost:${PORT}\n`);
-      });
-    })
-    .catch(err => {
-      console.warn('DB init skipped:', err.message);
-      app.listen(PORT, () => {
-        console.log(`\n🪔  Damodar Month site (local mode) → http://localhost:${PORT}\n`);
-      });
-    });
-} else {
-  app.listen(PORT, () => {
-    console.log(`\n🪔  Damodar Month site (local mode) → http://localhost:${PORT}\n`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`\n🪔  Damodar Month site → http://localhost:${PORT}\n`);
+});
